@@ -1,0 +1,14 @@
+<!doctype html>
+<title>This is search book from goodreads</title>
+
+{% if query %}
+<h1>you search this :{{ query }}</h1>
+</br>
+
+</br>
+{% else %}
+<h1>please enter some keywords</h1>
+{% endif %}
+{% if result %}
+<h1>search results :{{ results }}</h1>
+{% endif %}

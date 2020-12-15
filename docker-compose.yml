@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+    flask-front-end:
+        build: ./flaskapp_front_end
+        container_name: flask-front-end
+        depends_on:
+            - flask
+        # network: host
+        ports:
+            - "5000:5000"
+        # environment: 
+        #     FLASK_RUN_PORT: 5000
+        expose:
+            - 5000
+
+    flask:
+        build: ./flaskapp
+        container_name: flask
+        # network: host
+        links:
+            - db
+        ports:
+            - "5001:5000"
+        # expose:
+        #     - 5001
+
+        depends_on:
+            - redis
+            - db
+
+
+    db:
+        image: mysql:latest
+        restart: always
+        ports:
+            - "32000:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: goodread
+            MYSQL_PASSWORD: newpassword
+            MYSQL_USER: newuser
+            MYSQL_DATABASE: test_db
+
+        volumes:
+            # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+            # - ./db:/docker-entrypoint-initdb.d/:ro
+            # - ./db:/docker-entrypoint-initdb.d/init.sql
+            # - ./db:/init.sql
+            - ./db:/docker-entrypoint-initdb.d
+            # - ./db/data:/var/lib/mysql
+
+    redis:
+        image: redis:latest
+
+    # nginx:
+    #     build: ./nginx
+    #     container_name: nginx
+    #     restart: always
+    #     ports:
+    #         - "80:80"
+
+
+            # restart: always
+        # environment:
+        #     - APP_NAME=MyFlaskApp

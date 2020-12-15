@@ -1,0 +1,40 @@
+version: "3.7"
+ 
+services:
+  reverseproxy:
+     image: nginx
+     container_name: reverseproxy
+     ports:
+        - 8080:8080
+        - 8081:8081
+      restart: always
+      volumes:
+        - "./nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
+  flask1:
+     depends_on: 
+             - reverseproxy
+          build: ./flask1:/flask1
+          container_name: flask1
+          restart: always
+          environment:
+             - APP_NAME=Flask1
+          expose:
+             - 8080
+          volumes:
+            - "./nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
+
+   flask2:
+          depends_on:
+               - reverseproxy
+          build: ./flask2:/flask2
+          container_name: flask2
+          restart: always
+          environment:
+              - APP_NAME=Flask2
+          expose:
+              - 8081
+          volumes:
+              - "./nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
+
+
+

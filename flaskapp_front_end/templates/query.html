@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+<title>goodreads search api</title>
+</head>
+
+<body>
+    <h1>Goodreads API</h1>
+    </br>
+    <!-- <form action="/action_page.php"> -->
+    <form method="POST">
+        <input type="text" id="query" name="query"><input type="submit" name="submit_button" value="Submit">
+    </form>
+      
+      <p>Click the "Submit" button and the form-data will be sent to a page on the 
+      server called "action_page.php".</p>
+
+    {%if condition %}
+        <li>{{condition}}</li> 
+
+    {%endif%} 
+
+    <table>
+    {% for wk in work %}
+        <tr>
+        <!-- <td>{{ wk['best_book']['image_url'] }}</td>-->
+        <td><img src="{{ wk['best_book']['image_url'] }}"/></td>
+        <td>{{ wk['best_book']['title'] }}<p>{{ wk['average_rating'] }}</p> </td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+
+</html>
